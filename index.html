@@ -1,13 +1,75 @@
 <html>
-    <head></head>
+    <head>Angular Application</head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <style>
+        table, th, td{
+            border: 1px solid grey;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+        table tr:nth-child(odd){
+            background-color: #f2f2f2;
+        }
+
+        table tr:nth-child(even){
+            background-color: #ffffff;
+        }
+
+        input{
+            padding: 5px;
+        }
+    </style>
     <body>
         <h1>Sample Application</h1>
-        <div ng-app="" ng-init="quantity = 1;cost = 30; student = {firstname:'Mahesh',lastname:'Parashar',rollno:101};marks = [80,90,75,73,60]">
-            <p>Hello {{student.firstname + " " + student.lastname}}</p>
-            <p>Expense on Books : {{quantity * cost}}</p>
-            <p>Roll No : {{student.rollno}}</p>
-            <p>Marks(Math): {{marks[3]}}</p>
+        <div ng-app="myApp" ng-controller="GetStudent">
+            <table>
+                <tr>
+                    <td>Enter first name:</td>
+                    <td><input type="text" ng-model="student.firstName"></td>
+                </tr>
+                <tr>
+                    <td>Enter last name:</td>
+                    <td><input type="text" ng-model="student.lastName"></td>
+                </tr>
+                <tr>
+                    <td>Name:</td>
+                    <td>{{student.fullName()}}</td>
+                </tr>
+                <td>Subject:</td>
+                <td>
+                    <input type="text" ng-model="searchSubject">
+                    <table>
+                        <tr>
+                            <th>Name</th>
+                            <th>Mark</th>
+                        </tr>
+                        <tr ng-repeat="subject in student.subjects | filter:searchSubject">
+                            <td>{{subject.name}}</td>
+                            <td>{{subject.marks}}</td>
+                        </tr>
+                    </table>
+                </td>
+            </table>
         </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+        <script>
+            var app = angular.module("myApp", []);
+            app.controller("GetStudent", function($scope){
+                $scope.student = {
+                    firstName : "Keletso",
+                    lastName : "Moselakgomo",
+                    fullName : function(){
+                        var studentObj = $scope.student;
+                        return studentObj.firstName + " " + studentObj.lastName;  
+                    },
+                    fees:500,
+                    subjects:[
+                        {name:"Maths", marks:50},
+                        {name:"Science", marks:80},
+                        {name:"English", marks:60}
+                    ]
+                };
+            });
+        </script>
     </body>
 </html>
